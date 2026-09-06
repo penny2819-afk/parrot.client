@@ -1,0 +1,26 @@
+name: C# .NET Build
+
+on:
+  push:
+    branches: [ "main" ] # Startet, wenn du etwas in den main-Branch pushst
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # GitHub stellt einen Linux-Server bereit
+
+    steps:
+    - name: Code auschecken
+      uses: actions/checkout@v4
+
+    - name: .NET SDK installieren
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0' # Hier deine .NET Version eintragen (z.B. 6.0, 7.0, 8.0)
+
+    - name: Abhängigkeiten wiederherstellen (Restore)
+      run: dotnet restore
+
+    - name: Projekt kompilieren (Build)
+      run: dotnet build --configuration Release --no-restore
